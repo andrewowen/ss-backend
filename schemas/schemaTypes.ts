@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { ReactComponentLike } from "prop-types";
+import { ReactComponentLike, ReactElementLike } from "prop-types";
 
 type Meta = {
   parent: { [key: string]: any };
@@ -22,7 +22,7 @@ export type RuleType = {
   uri: (options: { scheme: string[] }) => RuleType;
 };
 
-type Validation = (rule: RuleType) => RuleType;
+export type Validation = (rule: RuleType) => RuleType;
 
 type CommonFieldProps = {
   name: string;
@@ -68,6 +68,13 @@ export type BlockField = {
   children: (Field | Span)[];
 };
 
+type SlugField = CommonFieldProps & {
+  options?: {
+    source: string;
+    maxLength?: number;
+  };
+};
+
 type ArrayOf =
   | ObjectType
   | ReferenceField
@@ -106,6 +113,7 @@ export type Field =
   | TextField
   | ArrayField
   | ReferenceField
+  | SlugField
   | ImageField
   | ObjectType
   | BlockField;
@@ -144,7 +152,8 @@ export type Document = {
   validation?: Validation;
   preview?: Preview;
   fieldsets?: Fieldset[];
-  initialValue?: { [key: string]: any }; // eslint-disable-line @typescript-eslint/no-explicit-any
+  initialValue?: { [key: string]: any };
+  icon?: ReactComponentLike; // eslint-disable-line @typescript-eslint/no-explicit-any
   orderings?: {
     name: string;
     title: string;

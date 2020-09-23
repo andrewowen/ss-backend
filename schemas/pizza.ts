@@ -1,12 +1,12 @@
 import { MdLocalPizza as icon } from "react-icons/md";
-import { RuleType } from "./schemaTypes";
+import { Document, RuleType } from "./schemaTypes";
 
-export default {
+const PizzaSchema: Document = {
+  type: "document",
   // Computed Name
   name: "pizza",
   // Visible Title
   title: "Pizzas",
-  type: "document",
   icon,
   fields: [
     {
@@ -37,7 +37,10 @@ export default {
       title: "Pizza Price",
       type: "number",
       description: "Price of the pizza in cents",
-      validation: (Rule: RuleType) => Rule.min(1000).max(50000),
+      validation: (Rule) => Rule.min(1000).max(50000),
+      // TODO: add custom input component
     },
   ],
 };
+
+export default PizzaSchema;
