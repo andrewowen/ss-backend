@@ -2,7 +2,7 @@
   "parser": "@typescript-eslint/parser",
   "extends": [
     "plugin:@typescript-eslint/recommended",
-    "plugin: prettier/recommended",
+    "plugin:prettier/recommended",
     "prettier/@typescript-eslint"
   ],
   "plugins": ["@typescript-eslint"],
@@ -12,13 +12,23 @@
   },
   "rules": {
     "quotes": "off",
+    "prettier/prettier": ["error", {"singleQuote": true, "trailingComma": "none"}],
     "@typescript-eslint/quotes": [
       2,
-      "backtick",
+      "single",
       {
         "avoidEscape": true
       }
     ],
-    "indent": ["error", 2, { "SwitchCase": 1 }]
-  }
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "@typescript-eslint/explicit-module-boundary-types": "off"
+  },
+  "overrides": [
+    {
+      "files": ["./schemas/schemaTypes.ts"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off"
+      }
+    }
+  ]
 }

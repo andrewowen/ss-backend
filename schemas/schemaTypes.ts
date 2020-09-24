@@ -1,5 +1,5 @@
-import React, { ReactElement } from "react";
-import { ReactComponentLike, ReactElementLike } from "prop-types";
+import React, { ReactElement } from 'react';
+import { ReactComponentLike } from 'prop-types';
 
 type Meta = {
   parent: { [key: string]: any };
@@ -37,6 +37,7 @@ type CommonFieldProps = {
     isHighlighted?: boolean; // is only available on fields within an image
   };
   icon?: ReactComponentLike; // is only available for elements of which include a block
+  inputComponent?: ReactComponentLike;
 };
 
 export type StringField = CommonFieldProps & {
@@ -51,12 +52,12 @@ type TextField = CommonFieldProps & {
 };
 
 export type Span = {
-  _type: "span";
+  _type: 'span';
   text: string;
 };
 
 export type BlockField = {
-  _type: "block";
+  _type: 'block';
   styles: {
     title: string;
     value: string;
@@ -68,10 +69,22 @@ export type BlockField = {
   children: (Field | Span)[];
 };
 
+type BooleanField = CommonFieldProps & {
+  options?: {
+    layout?: 'switch' | 'checkbox';
+  };
+};
+
 type SlugField = CommonFieldProps & {
   options?: {
     source: string;
     maxLength?: number;
+  };
+};
+
+type NumberField = CommonFieldProps & {
+  options?: {
+    list: { value: number; title: string }[];
   };
 };
 
@@ -91,7 +104,7 @@ type FilterFunctionResult = { filter: string; filterParams?: string };
 type FilterFunction = (args: {
   document: { [key: string]: any };
   parentPath: string[];
-  parent: {}[];
+  parent: Record<string, unknown>[];
 }) => FilterFunctionResult;
 type ReferenceField = CommonFieldProps & {
   to: { type: string }[];
@@ -110,9 +123,11 @@ type ImageField = CommonFieldProps & {
 export type Field =
   | CommonFieldProps
   | StringField
+  | BooleanField
   | TextField
   | ArrayField
   | ReferenceField
+  | NumberField
   | SlugField
   | ImageField
   | ObjectType
@@ -122,7 +137,7 @@ type Preview = {
   select?: { [key: string]: string };
   prepare?: (selection: {
     [key: string]: any;
-  }) => { title?: string; subtitle?: string }; // eslint-disable-line @typescript-eslint/no-explicit-any
+  }) => { title?: string; subtitle?: string };
   component?: (props: PreviewProps) => ReactElement;
 };
 
@@ -133,7 +148,7 @@ type Fieldset = {
 };
 
 export type ObjectType = {
-  type: "object";
+  type: 'object';
   title?: string;
   name: string;
   fields: Field[];
@@ -145,7 +160,7 @@ export type ObjectType = {
 };
 
 export type Document = {
-  type: "document";
+  type: 'document';
   name: string;
   fields: Field[];
   title?: string;
